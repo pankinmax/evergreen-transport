@@ -1,26 +1,108 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * Evergreen Transport — Design System
+ * A single source of truth for the visual language.
+ * Premium feel is achieved through spacing and typography, not effects.
+ */
+
+@theme {
+  /* Surfaces */
+  --color-background: #ffffff;
+  --color-surface: #f5f7f5; /* very light gray secondary background */
+  --color-surface-2: #eef2ef;
+
+  /* Text */
+  --color-foreground: #0f1512; /* almost black */
+  --color-muted: #5c6b62; /* secondary text */
+  --color-subtle: #8a978e; /* tertiary / captions */
+
+  /* Brand */
+  --color-primary: #14432a; /* deep forest green */
+  --color-primary-hover: #0e3421;
+  --color-primary-foreground: #ffffff;
+
+  --color-accent: #3e8e5e; /* soft green */
+  --color-accent-soft: #eaf3ec; /* soft green tint background */
+
+  /* Lines */
+  --color-border: #e6ebe7;
+  --color-border-strong: #d5ddd7;
+
+  /* Radius scale — rounded but subtle */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+
+  /* Typography */
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+
+  /* Content rhythm */
+  --spacing-section: 7rem;
+
+  /* Restrained shadows */
+  --shadow-soft: 0 1px 2px rgba(15, 21, 18, 0.04);
+  --shadow-card: 0 12px 40px -24px rgba(15, 21, 18, 0.25);
+  --shadow-header: 0 1px 0 rgba(15, 21, 18, 0.06),
+    0 8px 24px -20px rgba(15, 21, 18, 0.35);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 6rem; /* offset sticky header for anchor links */
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "ss01", "cv01";
+  }
+
+  /* Consistent, accessible focus ring */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  /* Balanced headline wrapping for premium typographic rhythm */
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
