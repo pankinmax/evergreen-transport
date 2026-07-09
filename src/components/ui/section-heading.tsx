@@ -1,55 +1,58 @@
-import * as React from "react";
-
 import { cn } from "@/lib/utils";
-import { Reveal } from "@/components/ui/reveal";
-
-interface SectionHeadingProps {
-  eyebrow?: string;
-  title: string;
-  description?: string;
-  /** Text alignment. Centered by default. */
-  align?: "left" | "center";
-  className?: string;
-}
 
 /**
- * Consistent section header — an optional eyebrow, a large balanced
- * headline and a comfortable-width supporting paragraph.
+ * Shared section header — matches the hero's language: a small uppercase
+ * evergreen label, a large extrabold ink heading and a comfortable
+ * supporting line. Used across every section for one consistent voice.
  */
 export function SectionHeading({
-  eyebrow,
-  title,
+  label,
+  heading,
   description,
-  align = "center",
+  align = "left",
+  tone = "light",
   className,
-}: SectionHeadingProps) {
+}: {
+  label: string;
+  heading: string;
+  description?: string;
+  align?: "left" | "center";
+  /** "dark" recolours the heading/description for placement on a dark surface. */
+  tone?: "light" | "dark";
+  className?: string;
+}) {
+  const dark = tone === "dark";
   return (
-    <Reveal
+    <div
       className={cn(
-        "flex flex-col gap-4",
+        "flex flex-col",
         align === "center" ? "items-center text-center" : "items-start",
         className,
       )}
     >
-      {eyebrow && (
-        <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.12em] text-accent">
-          <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
-          {eyebrow}
-        </span>
-      )}
-      <h2 className="text-balance text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-[2.75rem] lg:leading-[1.08]">
-        {title}
+      <span className="flex items-center gap-3 text-sm font-semibold uppercase tracking-[2px] text-evergreen">
+        <span className="h-2 w-2 bg-evergreen" aria-hidden />
+        {label}
+      </span>
+      <h2
+        className={cn(
+          "mt-5 text-[clamp(2rem,4vw,3rem)] font-extrabold leading-[1.05] tracking-[-0.02em]",
+          dark ? "text-white" : "text-ink",
+        )}
+      >
+        {heading}
       </h2>
       {description && (
         <p
           className={cn(
-            "text-pretty text-lg leading-relaxed text-muted",
+            "mt-5 text-lg leading-relaxed",
+            dark ? "text-white/70" : "text-muted",
             align === "center" ? "max-w-2xl" : "max-w-xl",
           )}
         >
           {description}
         </p>
       )}
-    </Reveal>
+    </div>
   );
 }

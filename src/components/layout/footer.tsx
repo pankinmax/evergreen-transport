@@ -1,131 +1,119 @@
 import Link from "next/link";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Clock, Mail, MapPin, Phone } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { Logo } from "@/components/ui/logo";
-import { getSocialIcon } from "@/components/ui/social-icons";
-import {
-  company,
-  footerLinks,
-  socialLinks,
-} from "@/data/company";
+import { FacebookIcon } from "@/components/ui/social-icons";
+import { company, footer } from "@/data/company";
 
 /**
- * Site footer. A calm, dark forest-green surface that anchors the page,
- * with contact details, quick links and social profiles read from data.
+ * Footer — a calm, dark-charcoal surface that anchors the page. Three
+ * columns (Useful Links, Contact Us, Facebook Page) beneath the brand, with
+ * a thin divider and the copyright / designed-by line below.
  */
 export function Footer() {
   const year = 2026; // Static build year — avoids hydration mismatch.
 
   return (
-    <footer className="bg-primary text-primary-foreground">
-      <Container className="py-16 lg:py-20">
-        <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
-          {/* Brand + contact */}
-          <div className="flex flex-col gap-6">
-            <Logo variant="inverted" />
-            <p className="max-w-xs text-pretty leading-relaxed text-primary-foreground/70">
-              {company.tagline}. Locally owned and operated since{" "}
-              {company.foundedYear}.
-            </p>
-            <ul className="flex flex-col gap-3 text-sm text-primary-foreground/80">
+    <footer id="contact" className="scroll-mt-24 bg-charcoal text-white/70">
+      <Container className="py-20 lg:py-24">
+        {/* Brand */}
+        <div className="flex flex-col gap-6 border-b border-white/10 pb-12 lg:flex-row lg:items-center lg:justify-between">
+          <Logo variant="light" />
+          <p className="max-w-md text-pretty leading-relaxed text-white/55">
+            {footer.tagline}
+          </p>
+        </div>
+
+        {/* Columns */}
+        <div className="grid gap-12 py-14 md:grid-cols-3">
+          {/* Useful Links */}
+          <div>
+            <FooterHeading>Useful Links</FooterHeading>
+            <ul className="mt-6 flex flex-col gap-3.5 text-[0.95rem]">
+              {footer.usefulLinks.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    className="transition-colors hover:text-evergreen"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact Us */}
+          <div>
+            <FooterHeading>Contact Us</FooterHeading>
+            <ul className="mt-6 flex flex-col gap-4 text-[0.95rem]">
               <li>
                 <a
                   href={company.phoneHref}
-                  className="inline-flex items-center gap-3 transition-colors hover:text-primary-foreground"
+                  className="inline-flex items-center gap-3 transition-colors hover:text-white"
                 >
-                  <Phone className="size-4 text-accent" />
+                  <Phone className="size-4 shrink-0 text-evergreen" />
                   {company.phone}
                 </a>
               </li>
               <li>
                 <a
                   href={company.emailHref}
-                  className="inline-flex items-center gap-3 transition-colors hover:text-primary-foreground"
+                  className="inline-flex items-center gap-3 transition-colors hover:text-white"
                 >
-                  <Mail className="size-4 text-accent" />
+                  <Mail className="size-4 shrink-0 text-evergreen" />
                   {company.email}
                 </a>
               </li>
               <li className="inline-flex items-start gap-3">
-                <MapPin className="mt-0.5 size-4 shrink-0 text-accent" />
-                <span>{company.address.full}</span>
+                <MapPin className="mt-0.5 size-4 shrink-0 text-evergreen" />
+                <span>{company.address}</span>
+              </li>
+              <li className="inline-flex items-start gap-3">
+                <Clock className="mt-0.5 size-4 shrink-0 text-evergreen" />
+                <span>{company.hours}</span>
               </li>
             </ul>
           </div>
 
-          {/* Company links */}
-          <FooterColumn title="Company" links={footerLinks.company} />
-
-          {/* Services links */}
-          <FooterColumn title="Services" links={footerLinks.services} />
-
-          {/* Hours */}
-          <div className="flex flex-col gap-4">
-            <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-primary-foreground/60">
-              Opening Hours
-            </h3>
-            <ul className="flex flex-col gap-2 text-sm text-primary-foreground/80">
-              <li>{company.hours.weekdays}</li>
-              <li>{company.hours.weekend}</li>
-              <li className="text-accent">{company.hours.note}</li>
-            </ul>
+          {/* Facebook Page */}
+          <div>
+            <FooterHeading>Facebook Page</FooterHeading>
+            <div className="mt-6 flex flex-col items-start gap-5">
+              <span className="grid h-11 w-11 place-items-center rounded-xl bg-white/10 text-white">
+                <FacebookIcon className="size-5" />
+              </span>
+              <p className="text-[0.95rem] leading-relaxed text-white/60">
+                {footer.facebook.text}
+              </p>
+              <Button asChild variant="outlineLight" size="md">
+                <a href={footer.facebook.cta.href}>
+                  <FacebookIcon className="size-[1.05rem]" />
+                  {footer.facebook.cta.label}
+                </a>
+              </Button>
+            </div>
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="mt-14 border-t border-primary-foreground/15 pt-8">
-          <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
-            <p className="text-sm text-primary-foreground/60">
-              © {year} {company.legalName}. All rights reserved.
-            </p>
-
-            <div className="flex items-center gap-3">
-              {socialLinks.map((social) => {
-                const Icon = getSocialIcon(social.icon);
-                return (
-                  <Link
-                    key={social.label}
-                    href={social.href}
-                    aria-label={social.label}
-                    className="grid h-10 w-10 place-items-center rounded-full border border-primary-foreground/20 text-primary-foreground/80 transition-colors hover:border-accent hover:text-accent"
-                  >
-                    <Icon className="size-[1.1rem]" />
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
+        {/* Bottom */}
+        <div className="flex flex-col gap-3 border-t border-white/10 pt-8 text-sm text-white/45 sm:flex-row sm:items-center sm:justify-between">
+          <p>
+            © {year} {company.name}. All rights reserved.
+          </p>
+          <p>{footer.designedBy}</p>
         </div>
       </Container>
     </footer>
   );
 }
 
-function FooterColumn({
-  title,
-  links,
-}: {
-  title: string;
-  links: readonly { label: string; href: string }[];
-}) {
+function FooterHeading({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-col gap-4">
-      <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-primary-foreground/60">
-        {title}
-      </h3>
-      <ul className="flex flex-col gap-3 text-sm text-primary-foreground/80">
-        {links.map((link) => (
-          <li key={link.label}>
-            <Link
-              href={link.href}
-              className="transition-colors hover:text-primary-foreground"
-            >
-              {link.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <h3 className="text-sm font-bold uppercase tracking-[0.14em] text-white">
+      {children}
+    </h3>
   );
 }

@@ -1,44 +1,34 @@
 import {
+  BusFront,
+  Car,
   Clock,
-  Container,
   Headset,
-  Mail,
   MapPin,
-  PackageCheck,
-  Phone,
-  Route,
+  Package,
+  PawPrint,
   ShieldCheck,
-  Snowflake,
-  Truck,
-  Van,
-  Warehouse,
+  Sparkles,
+  Wallet,
   type LucideIcon,
 } from "lucide-react";
 
 /**
- * Registry mapping the icon name strings used in `data/company.ts`
- * to their concrete Lucide components. This keeps the data layer free
- * of React imports while staying fully type-safe.
+ * Registry mapping the icon-name strings used in `data/company.ts` to their
+ * Lucide components, keeping the data layer free of React imports.
  */
 export const iconMap = {
-  Clock,
-  Container,
-  Headset,
-  Mail,
-  MapPin,
-  PackageCheck,
-  Phone,
-  Route,
+  BusFront,
+  Car,
+  PawPrint,
+  Package,
   ShieldCheck,
-  Snowflake,
-  Truck,
-  Van,
-  Warehouse,
+  Clock,
+  Sparkles,
+  MapPin,
+  Headset,
+  Wallet,
 } satisfies Record<string, LucideIcon>;
 
-export type IconName = keyof typeof iconMap;
-
-/** Resolve an icon name to its component, falling back gracefully. */
 export function getIcon(name: string): LucideIcon {
-  return iconMap[name as IconName] ?? Truck;
+  return iconMap[name as keyof typeof iconMap] ?? BusFront;
 }

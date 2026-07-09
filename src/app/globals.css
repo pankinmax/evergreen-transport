@@ -1,99 +1,93 @@
 @import "tailwindcss";
 
 /*
- * Evergreen Transport — Design System
- * A single source of truth for the visual language.
- * Premium feel is achieved through spacing and typography, not effects.
+ * Evergreen Transport — Design System v2
+ * Industrial, premium, confident. Colour comes from restraint:
+ * white, deep forest green, dark charcoal and soft grey. No gradients.
  */
 
 @theme {
   /* Surfaces */
   --color-background: #ffffff;
-  --color-surface: #f5f7f5; /* very light gray secondary background */
-  --color-surface-2: #eef2ef;
+  --color-panel: #f2f4f2; /* soft grey panel */
+  --color-panel-2: #e9ece9;
 
-  /* Text */
-  --color-foreground: #0f1512; /* almost black */
-  --color-muted: #5c6b62; /* secondary text */
-  --color-subtle: #8a978e; /* tertiary / captions */
+  /* Ink */
+  --color-ink: #14201b; /* headings — near-black forest */
+  --color-charcoal: #2a3330; /* dark charcoal body */
+  --color-muted: #5d6b64; /* secondary text */
+  --color-faint: #97a29b; /* captions / hairline labels */
 
   /* Brand */
-  --color-primary: #14432a; /* deep forest green */
-  --color-primary-hover: #0e3421;
-  --color-primary-foreground: #ffffff;
+  --color-forest: #123a27; /* deep forest green */
+  --color-forest-hover: #0d2e1f;
+  --color-forest-foreground: #ffffff;
+  --color-moss: #2f7d54; /* accent green for ticks / detail */
 
-  --color-accent: #3e8e5e; /* soft green */
-  --color-accent-soft: #eaf3ec; /* soft green tint background */
+  /* Light evergreen — brand accent (logo, hovers, ticks, small details) */
+  --color-evergreen: #69be28;
+  --color-evergreen-hover: #5aa622;
 
   /* Lines */
-  --color-border: #e6ebe7;
-  --color-border-strong: #d5ddd7;
+  --color-line: #e2e7e3;
+  --color-line-strong: #cfd6d1;
 
-  /* Radius scale — rounded but subtle */
-  --radius-sm: 0.5rem;
-  --radius-md: 0.75rem;
+  /* Radius */
   --radius-lg: 1rem;
   --radius-xl: 1.5rem;
   --radius-2xl: 2rem;
 
-  /* Typography */
-  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  /* Type */
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
 
-  /* Content rhythm */
-  --spacing-section: 7rem;
-
-  /* Restrained shadows */
-  --shadow-soft: 0 1px 2px rgba(15, 21, 18, 0.04);
-  --shadow-card: 0 12px 40px -24px rgba(15, 21, 18, 0.25);
-  --shadow-header: 0 1px 0 rgba(15, 21, 18, 0.06),
-    0 8px 24px -20px rgba(15, 21, 18, 0.35);
+  /* Shadows — restrained */
+  --shadow-soft: 0 1px 2px rgba(20, 32, 27, 0.05);
+  --shadow-header: 0 1px 0 rgba(20, 32, 27, 0.06),
+    0 10px 30px -22px rgba(20, 32, 27, 0.4);
+  --shadow-image: 0 40px 80px -50px rgba(20, 32, 27, 0.55);
 }
 
 @layer base {
   * {
-    border-color: var(--color-border);
+    border-color: var(--color-line);
   }
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
     -webkit-text-size-adjust: 100%;
-    scroll-padding-top: 6rem; /* offset sticky header for anchor links */
   }
 
   body {
     background-color: var(--color-background);
-    color: var(--color-foreground);
+    color: var(--color-charcoal);
     font-family: var(--font-sans);
-    text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-feature-settings: "ss01", "cv01";
+    text-rendering: optimizeLegibility;
   }
 
-  /* Consistent, accessible focus ring */
   :focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
-    border-radius: 2px;
+    outline: 2px solid var(--color-evergreen);
+    outline-offset: 3px;
+    border-radius: 3px;
   }
 
   ::selection {
-    background-color: var(--color-primary);
-    color: var(--color-primary-foreground);
+    background-color: var(--color-forest);
+    color: #fff;
   }
 }
 
 @layer utilities {
-  /* Balanced headline wrapping for premium typographic rhythm */
   .text-balance {
     text-wrap: balance;
   }
-  .text-pretty {
-    text-wrap: pretty;
+  .tabular {
+    font-variant-numeric: tabular-nums;
   }
 }
 
-/* Respect users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -102,7 +96,6 @@
   *::before,
   *::after {
     animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
 }

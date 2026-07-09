@@ -2,23 +2,24 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Menu } from "lucide-react";
+import { ArrowRight, Menu, Phone } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { Logo } from "@/components/ui/logo";
 import { MobileNav } from "@/components/layout/mobile-nav";
-import { hero, navItems } from "@/data/company";
+import { company, hero, navItems } from "@/data/company";
 
 /**
- * Sticky site header. White, generously tall for a premium feel, with a
- * very subtle shadow and hairline border that appear only once the page
- * is scrolled.
+ * Fixed header floating over the hero. Transparent with white nav, logo and
+ * outlined CTA while at the top; on scroll it transitions (300ms) to a white,
+ * softly-blurred bar with dark navigation and a subtle shadow.
  */
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeId, setActiveId] = useState("home");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -27,40 +28,102 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Scroll-spy: highlight the nav item for the section currently in view.
+  useEffect(() => {
+    const sections = navItems
+      .map((item) => document.getElementById(item.href.slice(1)))
+      .filter((el): el is HTMLElement => el !== null);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveId(entry.target.id);
+        });
+      },
+      // A thin band around the upper-middle of the viewport decides "active".
+      { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <>
       <header
         className={cn(
-          "sticky top-0 z-40 w-full bg-background/90 backdrop-blur-sm transition-shadow duration-300",
+          "fixed inset-x-0 top-0 z-40 transition-all duration-300 ease-out",
           scrolled
-            ? "border-b border-border shadow-[var(--shadow-header)]"
-            : "border-b border-transparent",
+            ? "border-b border-line bg-background/85 shadow-[var(--shadow-header)] backdrop-blur-xl backdrop-saturate-150"
+            : "border-b border-transparent bg-transparent",
         )}
       >
         <Container>
-          <div className="flex h-20 items-center justify-between gap-6 lg:h-24">
-            <Logo />
+          <div className="flex h-[88px] items-center justify-between gap-8">
+            <Logo variant={scrolled ? "dark" : "light"} />
 
-            {/* Desktop navigation */}
+            {/* Centred navigation */}
             <nav
               aria-label="Primary"
-              className="hidden items-center gap-1 lg:flex"
+              className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 lg:flex"
             >
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="rounded-full px-4 py-2 text-[0.95rem] font-medium text-muted transition-colors hover:text-foreground"
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {navItems.map((item) => {
+                const isActive = item.href === `#${activeId}`;
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    aria-current={isActive ? "page" : undefined}
+                    className={cn(
+                      "rounded-lg px-4 py-2 text-[0.95rem] font-semibold tracking-tight transition-colors hover:text-evergreen",
+                      // The section currently in view is accented in evergreen.
+                      isActive
+                        ? "text-evergreen"
+                        : scrolled
+                          ? "text-charcoal/80"
+                          : "text-white/85",
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
             </nav>
 
-            {/* Desktop CTA */}
-            <div className="hidden lg:block">
-              <Button asChild>
-                <Link href={hero.primaryCta.href}>{hero.primaryCta.label}</Link>
+            {/* Actions */}
+            <div className="hidden items-center gap-6 lg:flex">
+              <a
+                href={company.phoneHref}
+                className={cn(
+                  "group inline-flex items-center gap-2.5 text-[0.95rem] font-bold tracking-tight transition-colors",
+                  scrolled
+                    ? "text-ink hover:text-forest"
+                    : "text-white hover:text-white/80",
+                )}
+              >
+                <span
+                  className={cn(
+                    "grid h-9 w-9 place-items-center rounded-lg border transition-colors",
+                    scrolled
+                      ? "border-line-strong text-evergreen group-hover:border-evergreen"
+                      : "border-white/40 text-white group-hover:border-white",
+                  )}
+                >
+                  <Phone className="size-[1.05rem]" />
+                </span>
+                {company.phone}
+              </a>
+
+              <Button
+                asChild
+                size="md"
+                variant={scrolled ? "primary" : "outlineLight"}
+                className="group"
+              >
+                <Link href={hero.primaryCta.href}>
+                  {hero.primaryCta.label}
+                  <ArrowRight className="transition-transform duration-200 group-hover:translate-x-0.5" />
+                </Link>
               </Button>
             </div>
 
@@ -70,7 +133,12 @@ export function Header() {
               onClick={() => setMenuOpen(true)}
               aria-label="Open menu"
               aria-expanded={menuOpen}
-              className="grid h-11 w-11 place-items-center rounded-full text-foreground transition-colors hover:bg-surface lg:hidden"
+              className={cn(
+                "grid h-11 w-11 place-items-center rounded-xl transition-colors lg:hidden",
+                scrolled
+                  ? "text-ink hover:bg-panel"
+                  : "text-white hover:bg-white/10",
+              )}
             >
               <Menu className="size-6" />
             </button>

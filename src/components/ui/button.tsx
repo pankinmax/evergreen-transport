@@ -5,39 +5,35 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 /**
- * Premium button. Restrained styling — the weight comes from size,
- * spacing and a confident brand colour rather than gradients or shadows.
+ * Premium, industrial button. Squared-but-soft corners, confident weight,
+ * no gradients. The feel comes from size, spacing and colour discipline.
  */
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-semibold tracking-tight transition-all duration-200 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0 active:scale-[0.98] cursor-pointer",
+  "inline-flex items-center justify-center gap-2.5 whitespace-nowrap rounded-xl font-semibold tracking-tight transition-[background-color,border-color,color,transform] duration-200 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-moss disabled:pointer-events-none disabled:opacity-50 active:scale-[0.99] cursor-pointer [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         primary:
-          "bg-primary text-primary-foreground hover:bg-primary-hover shadow-[var(--shadow-soft)]",
-        secondary:
-          "bg-background text-foreground border border-border-strong hover:border-primary hover:text-primary",
-        ghost: "text-foreground hover:bg-surface",
-        accent:
-          "bg-accent text-primary-foreground hover:brightness-95",
+          "bg-forest text-forest-foreground hover:bg-forest-hover shadow-[var(--shadow-soft)]",
+        outline:
+          "border border-line-strong bg-background text-ink hover:border-forest hover:text-forest",
+        outlineLight:
+          "border border-white/70 bg-transparent text-white hover:bg-white hover:text-ink hover:border-white",
+        ghost: "text-ink hover:bg-panel",
       },
       size: {
-        sm: "h-10 px-5 text-sm [&_svg]:size-4",
         md: "h-12 px-6 text-[0.95rem] [&_svg]:size-[1.1rem]",
         lg: "h-14 px-8 text-base [&_svg]:size-5",
+        xl: "h-16 px-9 text-[1.05rem] [&_svg]:size-5",
       },
     },
-    defaultVariants: {
-      variant: "primary",
-      size: "md",
-    },
+    defaultVariants: { variant: "primary", size: "md" },
   },
 );
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
-  /** Render as a child element (e.g. a Next.js `Link`) instead of a `<button>`. */
   asChild?: boolean;
 }
 

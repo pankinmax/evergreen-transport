@@ -1,47 +1,55 @@
 import Link from "next/link";
+import { BusFront } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { company } from "@/data/company";
 
-interface LogoProps {
-  className?: string;
-  /** Use light text/border for placement on the dark footer. */
-  variant?: "default" | "inverted";
-}
-
 /**
- * Placeholder logo. Intentionally a simple "LOGO" block — no real brand
- * mark — while keeping a premium, aligned appearance. Swap this component
- * out for the real logo when available.
+ * Wordmark + monogram. Supports a light variant for placement over the
+ * dark hero image and a dark variant for the scrolled white header.
+ * (Placeholder mark — swap for the client's real logo when supplied.)
  */
-export function Logo({ className, variant = "default" }: LogoProps) {
-  const inverted = variant === "inverted";
+export function Logo({
+  className,
+  variant = "dark",
+}: {
+  className?: string;
+  variant?: "dark" | "light";
+}) {
+  const light = variant === "light";
   return (
     <Link
       href="#home"
       aria-label={`${company.name} — home`}
-      className={cn(
-        "group inline-flex items-center gap-3 rounded-md",
-        className,
-      )}
+      className={cn("group inline-flex items-center gap-3", className)}
     >
       <span
         className={cn(
-          "grid h-10 w-10 place-items-center rounded-lg text-[0.7rem] font-bold tracking-widest transition-colors",
-          inverted
-            ? "bg-primary-foreground text-primary"
-            : "bg-primary text-primary-foreground",
+          "grid h-11 w-11 place-items-center rounded-xl transition-colors",
+          light
+            ? "border border-white/40 bg-white/10 text-white backdrop-blur-sm"
+            : "bg-evergreen text-white shadow-[var(--shadow-soft)]",
         )}
       >
-        LOGO
+        <BusFront className="size-[1.35rem]" strokeWidth={2.25} />
       </span>
-      <span
-        className={cn(
-          "text-lg font-bold tracking-tight",
-          inverted ? "text-primary-foreground" : "text-foreground",
-        )}
-      >
-        {company.name}
+      <span className="flex flex-col leading-none">
+        <span
+          className={cn(
+            "text-[1.05rem] font-extrabold tracking-tight transition-colors",
+            light ? "text-white" : "text-ink",
+          )}
+        >
+          Evergreen
+        </span>
+        <span
+          className={cn(
+            "text-[0.7rem] font-semibold uppercase tracking-[0.28em] transition-colors",
+            light ? "text-white/70" : "text-muted",
+          )}
+        >
+          Transport
+        </span>
       </span>
     </Link>
   );

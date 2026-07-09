@@ -1,137 +1,133 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion, type Variants } from "framer-motion";
-import { ArrowRight, Check, PhoneCall } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Container } from "@/components/ui/container";
-import { ImagePlaceholder } from "@/components/ui/image-placeholder";
-import { BackgroundDecor, DotGrid } from "@/components/ui/background-decor";
-import { company, hero } from "@/data/company";
+import { hero } from "@/data/company";
 
-const container: Variants = {
+const group: Variants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
+  visible: { transition: { staggerChildren: 0.09, delayChildren: 0.1 } },
 };
 
 const item: Variants = {
-  hidden: { opacity: 0, y: 18 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
 /**
- * Hero — the most important section. Full viewport height, a confident
- * headline on the left, an elegant image placeholder on the right, and
- * three trust indicators. Entrance animation is a single, subtle stagger.
+ * Hero — a full-screen (100vh) photographic first section. The lifestyle
+ * photograph is the background of the section itself, dimmed by a dark
+ * overlay for legibility, and settles gently from 102% to 100% on load.
+ * Content is left-anchored and vertically centred.
  */
 export function Hero() {
   return (
     <section
       id="home"
-      className="relative flex min-h-[calc(100svh-5rem)] items-center overflow-hidden py-16 lg:min-h-[calc(100svh-6rem)] lg:py-24"
+      className="relative flex h-screen items-center overflow-hidden"
     >
-      <DotGrid />
-      <BackgroundDecor />
+      {/* Dedicated background layer — clipped to exactly the hero's height,
+          so the image never continues behind the following section. */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        {/* Slow, almost-unnoticeable settle from 102% to 100% on load */}
+        <motion.div
+          initial={{ scale: 1.02 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute inset-0"
+        >
+          <Image
+            src={hero.image.src}
+            alt={hero.image.alt}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+        </motion.div>
+        <div className="absolute inset-0 bg-ink/50" aria-hidden />
+      </div>
 
-      <Container>
-        <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-16">
-          {/* Copy */}
-          <motion.div
-            variants={container}
-            initial="hidden"
-            animate="visible"
-            className="flex flex-col items-start"
+      {/* Left-anchored content — sits slightly above the vertical centre */}
+      <div className="mx-auto w-full max-w-[1280px] px-6 sm:px-10 lg:translate-y-[10px] lg:pl-[120px] lg:pr-16">
+        <motion.div
+          variants={group}
+          initial="hidden"
+          animate="visible"
+          className="max-w-2xl py-10"
+        >
+          <motion.p
+            variants={item}
+            className="mb-5 text-sm font-semibold uppercase tracking-[2px] text-evergreen"
           >
-            <motion.span
-              variants={item}
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-1.5 text-sm font-medium text-muted"
-            >
-              <span className="h-2 w-2 rounded-full bg-accent" aria-hidden />
-              {hero.eyebrow}
-            </motion.span>
+            {hero.label}
+          </motion.p>
 
-            <motion.h1
-              variants={item}
-              className="mt-6 text-balance text-4xl font-bold leading-[1.06] tracking-tight text-foreground sm:text-5xl lg:text-6xl"
-            >
-              {hero.title}
-            </motion.h1>
-
-            <motion.p
-              variants={item}
-              className="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-muted"
-            >
-              {hero.subtitle}
-            </motion.p>
-
-            <motion.div
-              variants={item}
-              className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center"
-            >
-              <Button asChild size="lg">
-                <Link href={hero.primaryCta.href}>
-                  {hero.primaryCta.label}
-                  <ArrowRight />
-                </Link>
-              </Button>
-              <Button asChild size="lg" variant="secondary">
-                <Link href={hero.secondaryCta.href}>
-                  {hero.secondaryCta.label}
-                </Link>
-              </Button>
-            </motion.div>
-
-            {/* Trust indicators */}
-            <motion.ul
-              variants={item}
-              className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3"
-            >
-              {hero.trustIndicators.map((indicator) => (
-                <li
-                  key={indicator.label}
-                  className="inline-flex items-center gap-2 text-sm font-medium text-foreground"
-                >
-                  <span className="grid h-5 w-5 place-items-center rounded-full bg-accent-soft text-accent">
-                    <Check className="size-3.5" strokeWidth={3} />
-                  </span>
-                  {indicator.label}
-                </li>
-              ))}
-            </motion.ul>
-          </motion.div>
-
-          {/* Visual */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.97 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
-            className="relative mx-auto w-full max-w-md lg:max-w-none"
+          <motion.h1
+            variants={item}
+            className="text-[clamp(2.75rem,6vw,4.5rem)] font-extrabold leading-[0.95] tracking-[-0.035em] text-white"
           >
-            <ImagePlaceholder ratio="aspect-[4/5]" className="shadow-[var(--shadow-card)]" />
-
-            {/* Floating credibility card */}
-            <div className="absolute -bottom-5 -left-5 hidden items-center gap-3 rounded-2xl border border-border bg-background p-4 shadow-[var(--shadow-card)] sm:flex">
-              <span className="grid h-11 w-11 place-items-center rounded-full bg-primary text-primary-foreground">
-                <PhoneCall className="size-5" />
+            {hero.headlineLines.map((line) => (
+              <span key={line} className="block">
+                {line}
               </span>
-              <div className="pr-2">
-                <p className="text-xs font-medium text-muted">Talk to our team</p>
-                <a
-                  href={company.phoneHref}
-                  className="text-sm font-semibold text-foreground transition-colors hover:text-primary"
-                >
-                  {company.phone}
-                </a>
-              </div>
-            </div>
+            ))}
+          </motion.h1>
+
+          <motion.p
+            variants={item}
+            className="mt-7 max-w-xl text-lg leading-relaxed text-white/80"
+          >
+            {hero.description}
+          </motion.p>
+
+          <motion.div
+            variants={item}
+            className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
+          >
+            <Button asChild size="xl" className="group w-full sm:w-auto">
+              <Link href={hero.primaryCta.href}>
+                {hero.primaryCta.label}
+                <ArrowRight className="transition-transform duration-200 group-hover:translate-x-0.5" />
+              </Link>
+            </Button>
+            <Button
+              asChild
+              size="xl"
+              variant="outlineLight"
+              className="w-full sm:w-auto"
+            >
+              <Link href={hero.secondaryCta.href}>{hero.secondaryCta.label}</Link>
+            </Button>
           </motion.div>
-        </div>
-      </Container>
+
+          {/* Trust bar */}
+          <motion.ul
+            variants={item}
+            className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3"
+          >
+            {hero.badges.map((badge) => (
+              <li
+                key={badge}
+                className="inline-flex items-center gap-2 text-[0.95rem] font-semibold text-white"
+              >
+                <span className="grid size-5 place-items-center rounded-full border border-evergreen/60 text-evergreen">
+                  <Check className="size-3" strokeWidth={3.5} />
+                </span>
+                {badge}
+              </li>
+            ))}
+          </motion.ul>
+        </motion.div>
+      </div>
     </section>
   );
 }
