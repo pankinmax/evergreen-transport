@@ -15,6 +15,7 @@ export function ImagePlaceholder({
   sizes = "(max-width: 1024px) 100vw, 40vw",
   className,
   ratio = "aspect-[4/5]",
+  fit = "cover",
 }: {
   label: string;
   src?: string;
@@ -22,6 +23,8 @@ export function ImagePlaceholder({
   sizes?: string;
   className?: string;
   ratio?: string;
+  /** "contain" shows the whole photo (nothing cropped); "cover" fills the box. */
+  fit?: "cover" | "contain";
 }) {
   if (src) {
     return (
@@ -37,7 +40,7 @@ export function ImagePlaceholder({
           alt={alt ?? ""}
           fill
           sizes={sizes}
-          className="object-cover"
+          className={fit === "contain" ? "object-contain" : "object-cover"}
         />
       </div>
     );

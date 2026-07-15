@@ -3,9 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion, type Variants } from "framer-motion";
-import { ArrowRight, Check } from "lucide-react";
+import { Check } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { ContactButton } from "@/components/contact/contact-button";
+import { Container } from "@/components/ui/container";
 import { hero } from "@/data/company";
 
 const group: Variants = {
@@ -32,7 +34,9 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative flex h-screen items-center overflow-hidden"
+      // Mobile: at least one *small* viewport (svh accounts for browser
+      // chrome, so nothing is ever clipped). Desktop: exactly one viewport.
+      className="relative flex min-h-svh items-center overflow-hidden lg:h-screen"
     >
       {/* Dedicated background layer — clipped to exactly the hero's height,
           so the image never continues behind the following section. */}
@@ -56,24 +60,29 @@ export function Hero() {
         <div className="absolute inset-0 bg-ink/50" aria-hidden />
       </div>
 
-      {/* Left-anchored content — sits slightly above the vertical centre */}
-      <div className="mx-auto w-full max-w-[1280px] px-6 sm:px-10 lg:translate-y-[10px] lg:pl-[120px] lg:pr-16">
+      {/* Left-anchored content — on the same grid as every other section */}
+      {/* The whole content block sits slightly below centre — shifted as one
+          unit, so spacing between the elements is untouched. */}
+      <Container className="lg:translate-y-[22px]">
         <motion.div
           variants={group}
           initial="hidden"
           animate="visible"
-          className="max-w-2xl py-10"
+          className="max-w-2xl py-8 sm:py-10 md:max-w-3xl xl:max-w-2xl"
         >
           <motion.p
             variants={item}
-            className="mb-5 text-sm font-semibold uppercase tracking-[2px] text-evergreen"
+            className="mb-4 text-xs font-semibold uppercase tracking-[2px] text-evergreen sm:mb-5 sm:text-sm"
           >
             {hero.label}
           </motion.p>
 
           <motion.h1
             variants={item}
-            className="text-[clamp(2.75rem,6vw,4.5rem)] font-extrabold leading-[0.95] tracking-[-0.035em] text-white"
+            // Tracking eased from -0.035em to -0.012em: the tighter value made
+            // pairs like the "rt" in "Airport" collide at this weight/size.
+            // Still tight enough to keep the same confident look.
+            className="text-[clamp(2.25rem,6vw,4.5rem)] font-extrabold leading-[0.98] tracking-[-0.012em] text-white sm:leading-[0.95]"
           >
             {hero.headlineLines.map((line) => (
               <span key={line} className="block">
@@ -84,21 +93,20 @@ export function Hero() {
 
           <motion.p
             variants={item}
-            className="mt-7 max-w-xl text-lg leading-relaxed text-white/80"
+            className="mt-5 max-w-xl text-base leading-relaxed text-white/80 sm:mt-7 sm:text-lg md:max-w-2xl xl:max-w-xl"
           >
             {hero.description}
           </motion.p>
 
           <motion.div
             variants={item}
-            className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
+            className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:items-center"
           >
-            <Button asChild size="xl" className="group w-full sm:w-auto">
-              <Link href={hero.primaryCta.href}>
-                {hero.primaryCta.label}
-                <ArrowRight className="transition-transform duration-200 group-hover:translate-x-0.5" />
-              </Link>
-            </Button>
+            <ContactButton
+              label={hero.primaryCta.label}
+              size="xl"
+              className="group w-full sm:w-auto"
+            />
             <Button
               asChild
               size="xl"
@@ -112,7 +120,7 @@ export function Hero() {
           {/* Trust bar */}
           <motion.ul
             variants={item}
-            className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3"
+            className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 sm:mt-10 sm:gap-x-7"
           >
             {hero.badges.map((badge) => (
               <li
@@ -127,7 +135,7 @@ export function Hero() {
             ))}
           </motion.ul>
         </motion.div>
-      </div>
+      </Container>
     </section>
   );
 }

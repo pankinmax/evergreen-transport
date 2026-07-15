@@ -1,56 +1,37 @@
+import Image from "next/image";
 import Link from "next/link";
-import { BusFront } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { company } from "@/data/company";
 
 /**
- * Wordmark + monogram. Supports a light variant for placement over the
- * dark hero image and a dark variant for the scrolled white header.
- * (Placeholder mark — swap for the client's real logo when supplied.)
+ * Official Evergreen Transport logo.
+ *
+ * The asset is a transparent-background, brand-green lockup (vehicle mark
+ * above the wordmark), so it reads correctly on both the dark hero header /
+ * footer and the white scrolled header — no recolouring needed.
+ *
+ * Intrinsic dimensions are declared exactly (700×391), so the mark can never
+ * stretch or distort, and there's no layout shift while it loads. `w-auto`
+ * keeps the aspect ratio while the height scales across breakpoints; the
+ * 88px header height is unchanged.
  */
-export function Logo({
-  className,
-  variant = "dark",
-}: {
-  className?: string;
-  variant?: "dark" | "light";
-}) {
-  const light = variant === "light";
+export function Logo({ className }: { className?: string }) {
   return (
     <Link
       href="#home"
       aria-label={`${company.name} — home`}
-      className={cn("group inline-flex items-center gap-3", className)}
+      className={cn("-ml-1.5 inline-flex items-center lg:-ml-2.5", className)}
     >
-      <span
-        className={cn(
-          "grid h-11 w-11 place-items-center rounded-xl transition-colors",
-          light
-            ? "border border-white/40 bg-white/10 text-white backdrop-blur-sm"
-            : "bg-evergreen text-white shadow-[var(--shadow-soft)]",
-        )}
-      >
-        <BusFront className="size-[1.35rem]" strokeWidth={2.25} />
-      </span>
-      <span className="flex flex-col leading-none">
-        <span
-          className={cn(
-            "text-[1.05rem] font-extrabold tracking-tight transition-colors",
-            light ? "text-white" : "text-ink",
-          )}
-        >
-          Evergreen
-        </span>
-        <span
-          className={cn(
-            "text-[0.7rem] font-semibold uppercase tracking-[0.28em] transition-colors",
-            light ? "text-white/70" : "text-muted",
-          )}
-        >
-          Transport
-        </span>
-      </span>
+      <Image
+        src="/images/evergreen-transport-logo.png"
+        alt={`${company.name} logo`}
+        width={700}
+        height={391}
+        priority
+        sizes="(max-width: 640px) 110px, (max-width: 1024px) 125px, 145px"
+        className="h-13 w-auto object-contain sm:h-14 lg:h-17"
+      />
     </Link>
   );
 }

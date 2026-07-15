@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Menu, Phone } from "lucide-react";
+import { Menu, Phone } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { Logo } from "@/components/ui/logo";
+import { ContactButton } from "@/components/contact/contact-button";
 import { MobileNav } from "@/components/layout/mobile-nav";
-import { company, hero, navItems } from "@/data/company";
+import { company, navItems } from "@/data/company";
 
 /**
  * Fixed header floating over the hero. Transparent with white nav, logo and
@@ -59,8 +59,10 @@ export function Header() {
         )}
       >
         <Container>
-          <div className="flex h-[88px] items-center justify-between gap-8">
-            <Logo variant={scrolled ? "dark" : "light"} />
+          {/* Height comes from --header-height, the same variable the section
+              scroll offset is derived from — they can never drift apart. */}
+          <div className="flex h-[var(--header-height)] items-center justify-between gap-8">
+            <Logo />
 
             {/* Centred navigation */}
             <nav
@@ -90,7 +92,8 @@ export function Header() {
               })}
             </nav>
 
-            {/* Actions */}
+            {/* Actions — click-to-call. (The booking CTA was removed at the
+                client's request; there is no booking button anywhere.) */}
             <div className="hidden items-center gap-6 lg:flex">
               <a
                 href={company.phoneHref}
@@ -114,17 +117,12 @@ export function Header() {
                 {company.phone}
               </a>
 
-              <Button
-                asChild
+              {/* Primary CTA — opens the contact menu (no booking anywhere) */}
+              <ContactButton
                 size="md"
                 variant={scrolled ? "primary" : "outlineLight"}
                 className="group"
-              >
-                <Link href={hero.primaryCta.href}>
-                  {hero.primaryCta.label}
-                  <ArrowRight className="transition-transform duration-200 group-hover:translate-x-0.5" />
-                </Link>
-              </Button>
+              />
             </div>
 
             {/* Mobile trigger */}

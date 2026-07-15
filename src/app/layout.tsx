@@ -4,6 +4,7 @@ import { Manrope } from "next/font/google";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { QuickContact } from "@/components/layout/quick-contact";
+import { ContactMenuProvider } from "@/components/contact/contact-menu";
 import { company } from "@/data/company";
 import "./globals.css";
 
@@ -54,10 +55,12 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <QuickContact />
+        <ContactMenuProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+          <QuickContact />
+        </ContactMenuProvider>
       </body>
     </html>
   );

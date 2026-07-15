@@ -52,10 +52,34 @@
     border-color: var(--color-line);
   }
 
+  :root {
+    /*
+     * The fixed header's height. The header itself is sized from this value
+     * (see Header), so the anchor-scroll offset below can never drift out of
+     * sync with the real header.
+     */
+    --header-height: 88px;
+    /*
+     * Anchor links align a section's top edge with the top of the viewport,
+     * so the section's own background fills the screen and nothing of the
+     * previous section is left showing. The fixed header floats over it.
+     */
+    --scroll-offset: 0px;
+  }
+
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 6rem;
     -webkit-text-size-adjust: 100%;
+  }
+
+  /*
+   * The single anchor-scroll offset for the whole site, declared on the scroll
+   * targets themselves. `scroll-padding-top` on <html> must NOT also be set —
+   * the two values add together and the page overshoots.
+   */
+  section[id],
+  footer[id] {
+    scroll-margin-top: var(--scroll-offset);
   }
 
   body {
@@ -65,6 +89,44 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+  }
+
+  /* Safety net: nothing may ever cause horizontal scrolling. */
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Long words / URLs must never overflow their container. */
+  h1,
+  h2,
+  h3,
+  p,
+  a,
+  li {
+    overflow-wrap: break-word;
+  }
+
+  /* Media never exceeds its box. (next/image `fill` sets its own inline
+     sizing, so this only guards plain media.) */
+  img,
+  video {
+    max-width: 100%;
+  }
+
+  /*
+   * Manrope ships an over-tight kern pair for "rt" at its heavy weights, which
+   * visually merges the letters in words like "Airport" and "Transport" at
+   * display sizes. Switching the font's own kerning table off for headings
+   * restores each glyph's natural sidebearings, so the letters separate
+   * cleanly — without adding any artificial letter-spacing. Weight, size and
+   * overall density are unchanged.
+   */
+  h1,
+  h2,
+  h3 {
+    font-kerning: none;
   }
 
   :focus-visible {

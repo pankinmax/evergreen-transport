@@ -16,20 +16,20 @@ export function Footer() {
   const year = 2026; // Static build year — avoids hydration mismatch.
 
   return (
-    <footer id="contact" className="scroll-mt-24 bg-charcoal text-white/70">
-      <Container className="py-20 lg:py-24">
+    <footer id="contact" className="bg-charcoal text-white/70">
+      <Container className="py-14 lg:py-16">
         {/* Brand */}
-        <div className="flex flex-col gap-6 border-b border-white/10 pb-12 lg:flex-row lg:items-center lg:justify-between">
-          <Logo variant="light" />
-          <p className="max-w-md text-pretty leading-relaxed text-white/55">
+        <div className="flex flex-col items-center gap-6 border-b border-white/10 pb-10 text-center lg:flex-row lg:items-center lg:justify-between lg:text-left">
+          <Logo />
+          <p className="max-w-md text-pretty leading-relaxed text-white/65">
             {footer.tagline}
           </p>
         </div>
 
-        {/* Columns */}
-        <div className="grid gap-12 py-14 md:grid-cols-3">
+        {/* Columns — 1 / 2 / 3 across mobile, tablet, desktop */}
+        <div className="grid gap-10 py-10 sm:grid-cols-2 lg:grid-cols-3">
           {/* Useful Links */}
-          <div>
+          <div className="flex flex-col items-center text-center sm:items-start sm:text-left">
             <FooterHeading>Useful Links</FooterHeading>
             <ul className="mt-6 flex flex-col gap-3.5 text-[0.95rem]">
               {footer.usefulLinks.map((link) => (
@@ -46,7 +46,7 @@ export function Footer() {
           </div>
 
           {/* Contact Us */}
-          <div>
+          <div className="flex flex-col items-center text-center sm:items-start sm:text-left">
             <FooterHeading>Contact Us</FooterHeading>
             <ul className="mt-6 flex flex-col gap-4 text-[0.95rem]">
               <li>
@@ -69,7 +69,11 @@ export function Footer() {
               </li>
               <li className="inline-flex items-start gap-3">
                 <MapPin className="mt-0.5 size-4 shrink-0 text-evergreen" />
-                <span>{company.address}</span>
+                <span className="flex flex-col">
+                  {company.addressLines.map((line) => (
+                    <span key={line}>{line}</span>
+                  ))}
+                </span>
               </li>
               <li className="inline-flex items-start gap-3">
                 <Clock className="mt-0.5 size-4 shrink-0 text-evergreen" />
@@ -79,17 +83,30 @@ export function Footer() {
           </div>
 
           {/* Facebook Page */}
-          <div>
+          <div className="flex flex-col items-center text-center sm:items-start sm:text-left">
             <FooterHeading>Facebook Page</FooterHeading>
-            <div className="mt-6 flex flex-col items-start gap-5">
-              <span className="grid h-11 w-11 place-items-center rounded-xl bg-white/10 text-white">
-                <FacebookIcon className="size-5" />
+            {/* Clean, rounded Facebook card — same language as the site's cards. */}
+            <div className="mt-6 w-full max-w-sm rounded-2xl border border-white/10 bg-white/5 p-6 text-left">
+              <span className="grid h-12 w-12 place-items-center rounded-xl bg-white/10 text-white">
+                <FacebookIcon className="size-6" />
               </span>
-              <p className="text-[0.95rem] leading-relaxed text-white/60">
-                {footer.facebook.text}
+              <h4 className="mt-4 text-lg font-extrabold tracking-tight text-white">
+                {footer.facebook.name}
+              </h4>
+              <p className="mt-2 text-sm leading-relaxed text-white/60">
+                {footer.facebook.description}
               </p>
-              <Button asChild variant="outlineLight" size="md">
-                <a href={footer.facebook.cta.href}>
+              <Button
+                asChild
+                variant="outlineLight"
+                size="md"
+                className="mt-5 w-full"
+              >
+                <a
+                  href={footer.facebook.cta.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <FacebookIcon className="size-[1.05rem]" />
                   {footer.facebook.cta.label}
                 </a>
@@ -98,12 +115,11 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom */}
-        <div className="flex flex-col gap-3 border-t border-white/10 pt-8 text-sm text-white/45 sm:flex-row sm:items-center sm:justify-between">
+        {/* Bottom — a single, centred line */}
+        <div className="border-t border-white/10 pt-6 text-center text-sm text-white/60">
           <p>
             © {year} {company.name}. All rights reserved.
           </p>
-          <p>{footer.designedBy}</p>
         </div>
       </Container>
     </footer>

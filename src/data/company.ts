@@ -6,22 +6,53 @@
 
 export const company = {
   name: "Evergreen Transport",
-  phone: "0800 000 000",
-  phoneHref: "tel:0800000000",
-  email: "info@example.com",
-  emailHref: "mailto:info@example.com",
-  address: "[ Placeholder Street, Auckland, New Zealand ]",
+  // Displayed in the local NZ format; the tel: link keeps the full
+  // international number so it dials correctly from anywhere.
+  phone: "021 783 058",
+  phoneHref: "tel:+6421783058",
+  smsHref: "sms:+6421783058",
+  email: "derek@evergreen.nz",
+  emailHref: "mailto:derek@evergreen.nz",
+  addressLines: ["9C Vernon Street", "Auckland Central", "New Zealand"],
   hours: "[ Mon – Sun · placeholder hours ]",
-  facebookHref: "#",
+  facebookHref:
+    "https://www.facebook.com/profile.php?id=61553892484019&ref=embed_page",
   foundedYear: 2009,
 };
 
+/**
+ * The client's contact-first CTA strategy: no booking buttons anywhere.
+ * A single "Contact Us" button opens a menu offering these direct actions.
+ */
+export const contactCta = { label: "Contact Us" };
+
+export const contactActions = [
+  {
+    label: "Call Us",
+    hint: company.phone,
+    href: company.phoneHref,
+    icon: "Phone",
+  },
+  {
+    label: "Text Us",
+    hint: company.phone,
+    href: company.smsHref,
+    icon: "MessageCircle",
+  },
+  {
+    label: "Email Us",
+    hint: company.email,
+    href: company.emailHref,
+    icon: "Mail",
+  },
+];
+
+/** "Contact" is not a nav item — the Contact Us button covers it. */
 export const navItems = [
   { label: "Home", href: "#home" },
   { label: "About Us", href: "#about" },
   { label: "Services", href: "#services" },
   { label: "Benefits", href: "#benefits" },
-  { label: "Contact", href: "#contact" },
 ];
 
 export const hero = {
@@ -31,7 +62,7 @@ export const hero = {
   headlineLines: ["Affordable & Dependable", "Airport and Event", "Transport"],
   description:
     "Providing comfortable, reliable transport for airport transfers and special events throughout Auckland. We focus on punctual service, spacious vehicles and a smooth travel experience from pickup to destination.",
-  primaryCta: { label: "Book Now", href: "#contact" },
+  primaryCta: { label: "Contact Us" },
   secondaryCta: { label: "Our Services", href: "#services" },
   badges: ["Reliable", "NZ Wide", "Fast Response"],
   /**
@@ -49,60 +80,65 @@ export const hero = {
 /* --- About ---------------------------------------------------------- */
 export const about = {
   label: "About Us",
-  heading: "[ About Evergreen ]",
+  heading: "Reliable, Comfortable & Sustainable Transport",
   paragraphs: [
-    "[ Placeholder paragraph — this text will be replaced with the client's own words about the company. Keep it to two or three short, easy-to-read sentences. ]",
-    "[ Placeholder paragraph — a second short block of copy describing the people, the vehicles and what makes the experience feel premium and dependable. ]",
+    "Welcome to Evergreen Transport, your trusted choice for airport transfers, event transport and specialist transport services throughout Auckland. We are committed to providing dependable journeys while operating with an environmentally responsible approach whenever possible.",
+    "Our goal is to make every trip comfortable, punctual and stress-free. Whether you're travelling to the airport, attending an important event or arranging a specialised transport service, our experienced team is here to ensure everything runs smoothly.",
+    "Travel with confidence in our spacious, well-maintained vehicles and enjoy friendly, reliable service from pickup to destination.",
   ],
-  cta: { label: "Learn More", href: "#contact" },
-  imageLabel: "[ Company Photo ]",
+  cta: { label: "Contact Us" },
+  imageLabel: "Company photo",
   image: {
-    src: "https://images.pexels.com/photos/12555019/pexels-photo-12555019.jpeg?auto=compress&cs=tinysrgb&w=1400",
-    alt: "A friendly, professional driver smiling from the window of a passenger vehicle",
+    src: "/images/evergreen-transport-photo1.jpg",
+    alt: "Evergreen Transport vehicle and team providing transport in Auckland",
   },
 };
 
 /* --- Services ------------------------------------------------------- */
 export const services = {
   label: "Our Services",
-  heading: "[ Our Services ]",
+  heading: "What We Do",
   description:
-    "[ Short placeholder description of the services offered — replace with the client's own copy. ]",
+    "From airport transfers to companion driving and specialist courier work, we cover a wide range of transport needs across Auckland.",
   /** Photos shown between each pair of service cards. */
   photos: [
     {
-      src: "https://images.pexels.com/photos/7464537/pexels-photo-7464537.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      alt: "Passengers enjoying a comfortable ride together",
+      src: "https://images.pexels.com/photos/7464537/pexels-photo-7464537.jpeg?auto=compress&cs=tinysrgb&w=1400",
+      alt: "A driver sharing a warm, friendly moment with passengers inside the van before the journey",
     },
     {
-      src: "https://images.pexels.com/photos/27065579/pexels-photo-27065579.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      alt: "A dog travelling safely and comfortably in the car",
+      src: "https://images.unsplash.com/photo-1663668112782-ac5599d3b018?auto=format&fit=crop&w=1400&q=80",
+      alt: "Luggage loaded into the boot of a clean, spacious vehicle ready for an airport transfer",
     },
   ],
   items: [
     {
       icon: "BusFront",
       title: "Passenger Transport",
-      description: "[ Placeholder description for this service. ]",
-      cta: { label: "Book Now", href: "#contact" },
+      description:
+        "Safe and comfortable transport for individuals and groups, tailored to different travel needs.",
+      cta: { label: "Contact Us" },
     },
     {
       icon: "Car",
       title: "Companion Driving",
-      description: "[ Placeholder description for this service. ]",
-      cta: { label: "Book Now", href: "#contact" },
+      description:
+        "Reliable driving support for people who need a hand getting to appointments, the shops, or everyday activities.",
+      cta: { label: "Contact Us" },
     },
     {
       icon: "PawPrint",
       title: "Pet Transport",
-      description: "[ Placeholder description for this service. ]",
-      cta: { label: "Book Now", href: "#contact" },
+      description:
+        "Caring, secure transport for pets, so they travel safely and comfortably.",
+      cta: { label: "Contact Us" },
     },
     {
       icon: "Package",
       title: "Specialist Courier Work",
-      description: "[ Placeholder description for this service. ]",
-      cta: { label: "Book Now", href: "#contact" },
+      description:
+        "Courier services for specialised deliveries that need care, reliability and attention to detail.",
+      cta: { label: "Contact Us" },
     },
   ],
 };
@@ -110,23 +146,46 @@ export const services = {
 /* --- Benefits ------------------------------------------------------- */
 export const benefits = {
   label: "Our Benefits",
-  heading: "[ Why Choose Evergreen ]",
+  heading: "Why Choose Evergreen",
   description:
-    "[ Short placeholder description of the benefits — replace with real copy. ]",
+    "We're a local Auckland team, and we keep it simple: turn up on time, look after our passengers, and do what we said we'd do.",
   items: [
-    { icon: "ShieldCheck", title: "[ Benefit One ]", text: "[ Placeholder sentence describing this benefit in a few words. ]" },
-    { icon: "Clock", title: "[ Benefit Two ]", text: "[ Placeholder sentence describing this benefit in a few words. ]" },
-    { icon: "Sparkles", title: "[ Benefit Three ]", text: "[ Placeholder sentence describing this benefit in a few words. ]" },
-    { icon: "MapPin", title: "[ Benefit Four ]", text: "[ Placeholder sentence describing this benefit in a few words. ]" },
-    { icon: "Headset", title: "[ Benefit Five ]", text: "[ Placeholder sentence describing this benefit in a few words. ]" },
-    { icon: "Wallet", title: "[ Benefit Six ]", text: "[ Placeholder sentence describing this benefit in a few words. ]" },
+    {
+      icon: "ShieldCheck",
+      title: "Trusted & Reliable Service",
+      text: "Dependable transport you can count on, delivered with care and professionalism.",
+    },
+    {
+      icon: "Clock",
+      title: "Safe and Comfortable Journeys",
+      text: "We focus on smooth, secure and comfortable travel from pickup to destination.",
+    },
+    {
+      icon: "Sparkles",
+      title: "Experienced Professional Drivers",
+      text: "Skilled drivers committed to safety, reliability and looking after our customers.",
+    },
+    {
+      icon: "MapPin",
+      title: "Flexible Transport Solutions",
+      text: "Transport options to suit different schedules, needs and situations.",
+    },
+    {
+      icon: "Headset",
+      title: "Personalised Customer Care",
+      text: "Friendly, supportive service with attention to every customer's needs.",
+    },
+    {
+      icon: "Wallet",
+      title: "Available When You Need Us",
+      text: "Flexible support whenever you need reliable transport assistance.",
+    },
   ],
 };
 
 /* --- Footer --------------------------------------------------------- */
 export const footer = {
-  tagline:
-    "[ Placeholder tagline — a short line about Evergreen Transport goes here. ]",
+  tagline: "Reliable airport and event transport across Auckland.",
   usefulLinks: [
     { label: "About", href: "#about" },
     { label: "Services", href: "#services" },
@@ -134,8 +193,12 @@ export const footer = {
     { label: "Contact", href: "#contact" },
   ],
   facebook: {
-    text: "[ Placeholder text inviting visitors to follow Evergreen Transport on Facebook. ]",
-    cta: { label: "Visit Facebook", href: "#" },
+    name: "Evergreen Transport",
+    description:
+      "Follow us on Facebook for updates, availability and a look behind the scenes.",
+    cta: {
+      label: "Visit Facebook",
+      href: "https://www.facebook.com/profile.php?id=61553892484019&ref=embed_page",
+    },
   },
-  designedBy: "[ Designed by placeholder ]",
 };

@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { Phone, X } from "lucide-react";
+import { X } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/ui/logo";
-import { company, hero, navItems } from "@/data/company";
+import { ContactButton } from "@/components/contact/contact-button";
+import { useContactMenu } from "@/components/contact/contact-menu";
+import { navItems } from "@/data/company";
 
 /** Slide-in mobile navigation with large touch targets. */
 export function MobileNav({
@@ -17,12 +18,17 @@ export function MobileNav({
   open: boolean;
   onClose: () => void;
 }) {
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const { open: openContactMenu } = useContactMenu();
+
   useEffect(() => {
     if (!open) return;
     const original = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", onKey);
+    // Move focus into the dialog so keyboard users land inside it.
+    closeRef.current?.focus();
     return () => {
       document.body.style.overflow = original;
       window.removeEventListener("keydown", onKey);
@@ -57,10 +63,11 @@ export function MobileNav({
             <div className="flex items-center justify-between border-b border-line px-6 py-5">
               <Logo />
               <button
+                ref={closeRef}
                 type="button"
                 onClick={onClose}
                 aria-label="Close menu"
-                className="grid h-11 w-11 place-items-center rounded-xl text-muted transition-colors hover:bg-panel hover:text-ink"
+                className="grid h-12 w-12 place-items-center rounded-xl text-muted transition-colors hover:bg-panel hover:text-ink"
               >
                 <X className="size-6" />
               </button>
@@ -87,19 +94,16 @@ export function MobileNav({
               ))}
             </nav>
 
-            <div className="flex flex-col gap-4 border-t border-line px-6 py-6">
-              <Button asChild size="lg" className="w-full">
-                <Link href={hero.primaryCta.href} onClick={onClose}>
-                  {hero.primaryCta.label}
-                </Link>
-              </Button>
-              <a
-                href={company.phoneHref}
-                className="inline-flex items-center justify-center gap-2 text-sm font-semibold text-muted transition-colors hover:text-forest"
-              >
-                <Phone className="size-4" />
-                {company.phone}
-              </a>
+            {/* Primary CTA — closes the panel, then opens the contact menu. */}
+            <div className="border-t border-line px-6 py-6">
+              <ContactButton
+                size="lg"
+                className="group w-full justify-center"
+                onClick={() => {
+                  onClose();
+                  openContactMenu();
+                }}
+              />
             </div>
           </motion.div>
         </motion.div>
