@@ -114,7 +114,10 @@ export function Header() {
                 >
                   <Phone className="size-[1.05rem]" />
                 </span>
-                {company.phone}
+                {/* Number hides below xl so the centred nav never collides with
+                    the actions on narrower desktops (e.g. Nest Hub, 1024px).
+                    The clickable phone icon always stays visible. */}
+                <span className="hidden xl:inline">{company.phone}</span>
               </a>
 
               {/* Primary CTA — opens the contact menu (no booking anywhere) */}

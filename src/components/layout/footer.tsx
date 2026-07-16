@@ -115,10 +115,14 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom — a single, centred line */}
-        <div className="border-t border-white/10 pt-6 text-center text-sm text-white/60">
+        {/* Bottom — centred copyright, with a subtle developer credit pinned
+            bottom-right on larger screens and stacked below on mobile. */}
+        <div className="relative border-t border-white/10 pt-6 text-center text-sm text-white/60">
           <p>
             © {year} {company.name}. All rights reserved.
+          </p>
+          <p className="mt-2 text-xs text-white/40 sm:absolute sm:right-0 sm:top-6 sm:mt-0">
+            by Maksim Pankin
           </p>
         </div>
       </Container>

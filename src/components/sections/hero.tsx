@@ -34,9 +34,10 @@ export function Hero() {
   return (
     <section
       id="home"
-      // Mobile: at least one *small* viewport (svh accounts for browser
-      // chrome, so nothing is ever clipped). Desktop: exactly one viewport.
-      className="relative flex min-h-svh items-center overflow-hidden lg:h-screen"
+      // Reserve the fixed header's height and top-align the content, so it can
+      // never sit under the header/logo on short screens (phones, Nest Hub).
+      // Only on genuinely tall desktop viewports do we centre it as before.
+      className="relative flex min-h-svh items-start overflow-hidden pt-[var(--header-height)] lg:h-screen [@media(min-width:1024px)_and_(min-height:720px)]:items-center [@media(min-width:1024px)_and_(min-height:720px)]:pt-0"
     >
       {/* Dedicated background layer — clipped to exactly the hero's height,
           so the image never continues behind the following section. */}
