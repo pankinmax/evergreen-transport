@@ -48,7 +48,13 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en-NZ" className={`${manrope.variable} h-full`}>
-      <body className="min-h-full antialiased">
+      {/*
+        Browser extensions (Grammarly, LastPass, …) inject attributes into
+        <body> before React hydrates, which Next reports as a hydration
+        mismatch. It's the extension, not our markup — suppress the warning
+        on this one element only. Mismatches inside the tree still report.
+      */}
+      <body className="min-h-full antialiased" suppressHydrationWarning>
         <a
           href="#home"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-forest focus:px-5 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-forest-foreground"
