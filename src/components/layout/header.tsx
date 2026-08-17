@@ -92,8 +92,9 @@ export function Header() {
               })}
             </nav>
 
-            {/* Actions — click-to-call. (The booking CTA was removed at the
-                client's request; there is no booking button anywhere.) */}
+            {/* Actions — click-to-call, plus the header's Contact Us button.
+                Like every CTA on the page it opens the contact menu; there is
+                no booking system behind any of them. */}
             <div className="hidden items-center gap-6 lg:flex">
               <a
                 href={company.phoneHref}
@@ -120,7 +121,7 @@ export function Header() {
                 <span className="hidden xl:inline">{company.phone}</span>
               </a>
 
-              {/* Primary CTA — opens the contact menu (no booking anywhere) */}
+              {/* Primary CTA — opens the contact menu */}
               <ContactButton
                 size="md"
                 variant={scrolled ? "primary" : "outlineLight"}

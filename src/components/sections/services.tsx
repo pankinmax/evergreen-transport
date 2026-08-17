@@ -74,6 +74,19 @@ export function Services() {
               </div>
             ))}
           </div>
+
+          {/*
+            One call to action for all four services. The cards themselves
+            carry none, so there is a single obvious next step per section.
+          */}
+          <div className="mt-12 flex justify-center lg:mt-14">
+            <ContactButton
+              label={services.cta.label}
+              size="lg"
+              variant="primaryOnDark"
+              className="group w-full sm:w-auto"
+            />
+          </div>
         </div>
       </Container>
     </section>
@@ -106,14 +119,6 @@ function ServiceCard({
         {service.title}
       </h3>
       <p className="mt-3 leading-relaxed text-muted">{service.description}</p>
-
-      <div className="mt-auto pt-8">
-        <ContactButton
-          label={service.cta.label}
-          size="md"
-          className="group/btn"
-        />
-      </div>
     </article>
   );
 }

@@ -21,8 +21,15 @@ export const company = {
 };
 
 /**
- * The client's contact-first CTA strategy: no booking buttons anywhere.
- * A single "Contact Us" button opens a menu offering these direct actions.
+ * The client's contact-first CTA strategy. There is no booking system: every
+ * call to action on the page opens the same menu of direct contact actions.
+ *
+ * The page carries exactly four of them — one per surface, so no two buttons
+ * ever compete for the same click:
+ *   header    "Contact Us"              (this label)
+ *   hero      "Book Your Ride"          (hero.primaryCta)
+ *   services  "Book a Service"          (services.cta)
+ *   executive "Book an Airport Transfer" (executive.cta)
  */
 export const contactCta = { label: "Contact Us" };
 
@@ -62,7 +69,7 @@ export const hero = {
   headlineLines: ["Affordable & Dependable", "Airport and Event", "Transport"],
   description:
     "Providing comfortable, reliable transport for airport transfers and special events throughout Auckland. We focus on punctual service, spacious vehicles and a smooth travel experience from pickup to destination.",
-  primaryCta: { label: "Contact Us" },
+  primaryCta: { label: "Book Your Ride" },
   secondaryCta: { label: "Our Services", href: "#services" },
   badges: ["Reliable", "NZ Wide", "Fast Response"],
   /**
@@ -86,7 +93,7 @@ export const about = {
     "Our goal is to make every trip comfortable, punctual and stress-free. Whether you're travelling to the airport, attending an important event or arranging a specialised transport service, our experienced team is here to ensure everything runs smoothly.",
     "Travel with confidence in our spacious, well-maintained vehicles and enjoy friendly, reliable service from pickup to destination.",
   ],
-  cta: { label: "Contact Us" },
+  /* No button here — About is read, not acted on. */
   imageLabel: "Company photo",
   image: {
     src: "/images/evergreen-transport-photo1.jpg",
@@ -100,6 +107,8 @@ export const services = {
   heading: "What We Do",
   description:
     "From airport transfers to companion driving and specialist courier work, we cover a wide range of transport needs across Auckland.",
+  /** One call to action for all four services, centred below the grid. */
+  cta: { label: "Book a Service" },
   /** Photos shown between each pair of service cards. */
   photos: [
     {
@@ -117,30 +126,57 @@ export const services = {
       title: "Passenger Transport",
       description:
         "Safe and comfortable transport for individuals and groups, tailored to different travel needs.",
-      cta: { label: "Contact Us" },
     },
     {
       icon: "Car",
       title: "Companion Driving",
       description:
         "Reliable driving support for people who need a hand getting to appointments, the shops, or everyday activities.",
-      cta: { label: "Contact Us" },
     },
     {
       icon: "PawPrint",
       title: "Pet Transport",
       description:
         "Caring, secure transport for pets, so they travel safely and comfortably.",
-      cta: { label: "Contact Us" },
     },
     {
       icon: "Package",
       title: "Specialist Courier Work",
       description:
         "Courier services for specialised deliveries that need care, reliability and attention to detail.",
-      cta: { label: "Contact Us" },
     },
   ],
+};
+
+/* --- Executive Airport Transfers ------------------------------------ */
+/**
+ * The featured service. Sits between Services and Benefits and is given a
+ * little more room than a standard service card — the subject is the journey,
+ * not the vehicle, so the copy leads with the travel experience.
+ */
+export const executive = {
+  label: "New Service",
+  heading: "Executive Airport Transfers",
+  paragraphs: [
+    "Travel to or from Auckland Airport in comfort with Evergreen's new Executive Airport Transfer service. Enjoy a smooth, reliable and spacious journey in our latest electric Cadillac, designed to provide a more premium travel experience.",
+    "Our newest vehicle was secured through a General Motors promotion at 35% below the original list price, helping Evergreen continue investing in modern and efficient transport while keeping our service focused on value and reliability.",
+  ],
+  /**
+   * Guards the sentence above from being read as a customer offer. Rendered
+   * in smaller type beside an evergreen rule.
+   */
+  note: "The 35% saving applies to Evergreen's purchase of the vehicle — it is not a discount on transfer fares.",
+  cta: { label: "Book an Airport Transfer" },
+  imageLabel: "[ Executive Cadillac Photo ]",
+  /**
+   * Awaiting the client's photograph of the new vehicle. Drop the file into
+   * `public/images/` and set `src` to its path (e.g. "/images/cadillac.jpg")
+   * — the placeholder disappears on its own.
+   */
+  image: {
+    src: "",
+    alt: "Evergreen Transport's electric Cadillac waiting at Auckland Airport",
+  },
 };
 
 /* --- Benefits ------------------------------------------------------- */

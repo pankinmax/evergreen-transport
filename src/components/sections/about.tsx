@@ -1,4 +1,3 @@
-import { ContactButton } from "@/components/contact/contact-button";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ImagePlaceholder } from "@/components/ui/image-placeholder";
@@ -43,7 +42,11 @@ export function About() {
             className="rounded-[22px] border-0 shadow-[var(--shadow-image)]"
           />
 
-          {/* Copy, vertically centred against the image */}
+          {/*
+            Copy, vertically centred against the image. No call to action —
+            About is the section people read; the buttons live in Hero,
+            Services and Executive Transfers.
+          */}
           <div className="flex flex-col items-start">
             <SectionHeading label={about.label} heading={about.heading} />
 
@@ -54,12 +57,6 @@ export function About() {
                 </p>
               ))}
             </div>
-
-            <ContactButton
-              label={about.cta.label}
-              size="lg"
-              className="group mt-9"
-            />
           </div>
         </div>
       </Container>

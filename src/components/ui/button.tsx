@@ -15,6 +15,10 @@ const buttonVariants = cva(
       variant: {
         primary:
           "bg-forest text-forest-foreground hover:bg-forest-hover shadow-[var(--shadow-soft)]",
+        // The primary button inverted, for a solid CTA on the dark forest
+        // band — where `primary` would be forest-on-forest and disappear.
+        primaryOnDark:
+          "bg-background text-forest hover:bg-panel shadow-[var(--shadow-soft)]",
         outline:
           "border border-line-strong bg-background text-ink hover:border-forest hover:text-forest",
         outlineLight:
