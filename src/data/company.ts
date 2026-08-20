@@ -169,13 +169,16 @@ export const executive = {
   cta: { label: "Book an Airport Transfer" },
   imageLabel: "[ Executive Cadillac Photo ]",
   /**
-   * Awaiting the client's photograph of the new vehicle. Drop the file into
-   * `public/images/` and set `src` to its path (e.g. "/images/cadillac.jpg")
-   * — the placeholder disappears on its own.
+   * TEMPORARY stand-in, not Evergreen's vehicle: a royalty-free Unsplash
+   * photograph of a black Cadillac Escalade, cropped to 4:3 so it fills the
+   * section's box with nothing cut off the car. Note it is a petrol Escalade,
+   * while the copy above describes the electric model — replace it as soon as
+   * the client's own photo arrives, and restore the alt text to name the real
+   * vehicle and location.
    */
   image: {
-    src: "",
-    alt: "Evergreen Transport's electric Cadillac waiting at Auckland Airport",
+    src: "/images/executive-cadillac-placeholder.jpg",
+    alt: "A black Cadillac executive SUV parked and ready for an airport transfer",
   },
 };
 

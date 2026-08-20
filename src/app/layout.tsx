@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
@@ -67,6 +68,8 @@ export default function RootLayout({
           <Footer />
           <QuickContact />
         </ContactMenuProvider>
+        {/* Vercel Analytics — renders no markup; collects page views in production. */}
+        <Analytics />
       </body>
     </html>
   );
